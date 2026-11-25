@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>API Performance Monitor</title>
+<style>
+*{box-sizing:border-box}body{font-family:Arial,sans-serif;margin:0;background:#f1f5f9;color:#172554}
+header{background:#172554;color:white;padding:24px 7%}main{max-width:1050px;margin:28px auto;padding:0 16px}
+.card{background:white;padding:22px;border-radius:12px;box-shadow:0 3px 14px #0001;margin-bottom:18px}
+input{padding:11px;border:1px solid #cbd5e1;border-radius:7px;margin:5px;width:min(100%,330px)}
+button{border:0;border-radius:8px;padding:11px 16px;background:#2563eb;color:white;cursor:pointer}
+table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:10px;border-bottom:1px solid #e2e8f0}
+.note{color:#64748b;font-size:14px}
+</style></head>
+<body>
+<header><h1>📊 API Performance Monitor</h1><p>Track API response times, HTTP status codes and errors.</p></header>
+<main>
+<section class="card"><h2>Add API Endpoint</h2>
+<form id="apiForm"><input id="apiName" placeholder="API name" required><input id="apiUrl" type="url" placeholder="https://example.com/api" required><button>Add API</button></form>
+<p class="note">For security, this browser-only demo does not send requests to arbitrary APIs. Connect the form to the Flask backend to perform monitoring.</p>
+</section>
+<section class="card"><h2>Monitored APIs</h2>
+<table><thead><tr><th>Name</th><th>URL</th><th>Latest status</th><th>Response time</th><th>Action</th></tr></thead><tbody id="apiRows"></tbody></table>
+</section>
+<section class="card"><h2>Recent Performance History</h2><table><thead><tr><th>Time</th><th>API</th><th>Status</th><th>Duration</th><th>Error</th></tr></thead><tbody id="historyRows"></tbody></table></section>
+</main>
+<script>
+let apis=[];
+document.getElementById('apiForm').addEventListener('submit',e=>{e.preventDefault();apis.push({name:apiName.value,url:apiUrl.value});render();e.target.reset();});
+function render(){apiRows.innerHTML='';apis.forEach((a,i)=>{const tr=document.createElement('tr');tr.innerHTML='<td></td><td></td><td>Not checked</td><td>—</td><td><button type="button">Check</button></td>';tr.children[0].textContent=a.name;tr.children[1].textContent=a.url;tr.querySelector('button').onclick=()=>{tr.children[2].textContent='Demo only';tr.children[3].textContent='Connect Flask backend';};apiRows.appendChild(tr);});}
+</script></body></html>
